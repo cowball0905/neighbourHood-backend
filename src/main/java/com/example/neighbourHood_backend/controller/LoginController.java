@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.neighbourHood_backend.Model.User;
 import com.example.neighbourHood_backend.Repository.UserRepository;
 import com.example.neighbourHood_backend.Service.UserService;
+import com.example.neighbourHood_backend.request.LoginRequestDTO;
 import com.example.neighbourHood_backend.util.jwtUtil;
 
 @RestController
@@ -25,7 +26,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> request) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequestDTO request) {
         String username = request.get("username");
         String password = request.get("password");
 
