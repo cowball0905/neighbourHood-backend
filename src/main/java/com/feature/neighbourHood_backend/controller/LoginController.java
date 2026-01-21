@@ -1,4 +1,4 @@
-package com.example.neighbourHood_backend.controller;
+package com.feature.neighbourHood_backend.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.neighbourHood_backend.request.LoginRequestDTO;
-import com.example.neighbourHood_backend.request.LoginResponseDTO;
-import com.example.neighbourHood_backend.service.UserService;
+import com.feature.neighbourHood_backend.model.DTO.LoginRequestDTO;
+import com.feature.neighbourHood_backend.model.DTO.LoginResponseDTO;
+import com.feature.neighbourHood_backend.service.UserService;
 
 @RestController
 @RequestMapping("/api")

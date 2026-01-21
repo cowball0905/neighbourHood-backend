@@ -1,4 +1,4 @@
-package com.example.neighbourHood_backend.filter;
+package com.feature.neighbourHood_backend.filter;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -8,8 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.neighbourHood_backend.service.UserService;
-import com.example.neighbourHood_backend.util.jwtUtil;
+import com.feature.neighbourHood_backend.service.UserService;
+import com.feature.neighbourHood_backend.util.jwtUtil;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

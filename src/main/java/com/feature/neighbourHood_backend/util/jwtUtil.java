@@ -1,8 +1,8 @@
-package com.example.neighbourHood_backend.util;
+package com.feature.neighbourHood_backend.util;
 
 import org.springframework.stereotype.Component;
 
-import com.example.neighbourHood_backend.model.User;
+import com.feature.neighbourHood_backend.model.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,4 +1,4 @@
-package com.example.neighbourHood_backend.config;
+package com.feature.neighbourHood_backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,9 +8,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.example.neighbourHood_backend.filter.jwtAuthFilter;
-import com.example.neighbourHood_backend.service.UserService;
-import com.example.neighbourHood_backend.util.jwtUtil;
+import com.feature.neighbourHood_backend.filter.jwtAuthFilter;
+import com.feature.neighbourHood_backend.service.UserService;
+import com.feature.neighbourHood_backend.util.jwtUtil;
 
 @Configuration
 @EnableWebSecurity

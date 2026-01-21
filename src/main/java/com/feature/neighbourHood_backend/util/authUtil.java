@@ -1,4 +1,4 @@
-package com.example.neighbourHood_backend.util;
+package com.feature.neighbourHood_backend.util;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

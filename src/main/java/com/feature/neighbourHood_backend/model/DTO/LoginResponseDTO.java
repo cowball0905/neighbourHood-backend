@@ -1,4 +1,4 @@
-package com.example.neighbourHood_backend.request;
+package com.feature.neighbourHood_backend.model.DTO;
 
 public class LoginResponseDTO{
     private String token;

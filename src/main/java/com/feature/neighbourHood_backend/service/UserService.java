@@ -1,4 +1,4 @@
-package com.example.neighbourHood_backend.service;
+package com.feature.neighbourHood_backend.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,13 +6,13 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import com.example.neighbourHood_backend.entity.UserEntity;
-import com.example.neighbourHood_backend.model.User;
-import com.example.neighbourHood_backend.repository.UserRepository;
-import com.example.neighbourHood_backend.request.LoginRequestDTO;
-import com.example.neighbourHood_backend.request.LoginResponseDTO;
-import com.example.neighbourHood_backend.util.authUtil;
-import com.example.neighbourHood_backend.util.jwtUtil;
+import com.feature.neighbourHood_backend.model.User;
+import com.feature.neighbourHood_backend.model.DTO.LoginRequestDTO;
+import com.feature.neighbourHood_backend.model.DTO.LoginResponseDTO;
+import com.feature.neighbourHood_backend.model.entity.UserEntity;
+import com.feature.neighbourHood_backend.repository.UserRepository;
+import com.feature.neighbourHood_backend.util.authUtil;
+import com.feature.neighbourHood_backend.util.jwtUtil;
 
 @Service
 public class UserService {

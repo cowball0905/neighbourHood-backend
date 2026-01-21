@@ -1,4 +1,4 @@
-package com.example.neighbourHood_backend.controller;
+package com.feature.neighbourHood_backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
