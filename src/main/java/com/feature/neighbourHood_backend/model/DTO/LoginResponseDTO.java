@@ -1,22 +1,24 @@
 package com.feature.neighbourHood_backend.model.DTO;
 
-public class LoginResponseDTO{
+import java.util.UUID;
+
+public class LoginResponseDTO {
     private String token;
     private UserDTO user;
 
-    public void setToken(String token){
+    public void setToken(String token) {
         this.token = token;
     }
 
-    public void setUser(String username, String uuid){
-        this.user = new UserDTO(username, uuid);
+    public void setUser(String username, UUID uuid, String email) {
+        this.user = new UserDTO(username, uuid, email);
     }
 
-    public String getToken(){
+    public String getToken() {
         return token;
     }
 
-    public UserDTO getUser(){
+    public UserDTO getUser() {
         return user;
     }
 }

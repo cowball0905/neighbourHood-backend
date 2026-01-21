@@ -1,5 +1,7 @@
 package com.feature.neighbourHood_backend.model.entity;
 
+import java.util.UUID;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -9,7 +11,8 @@ import jakarta.persistence.Table;
 @Table(name = "users")
 public class UserEntity {
     @Id
-    private String uuid;
+    @Column(name = "uuid", columnDefinition = "uuid")
+    private UUID uuid;
 
     @Column(name = "username")
     private String username;
@@ -20,8 +23,24 @@ public class UserEntity {
     @Column(name= "password")
     private String password;
 
-    public void setId(String id) {
-        this.uuid = id;
+    @Column(name= "hkid")
+    private String hkid;
+
+    @Column(name= "house")
+    private String house;
+
+    public UserEntity(String username,String email,String password){
+        this.uuid = UUID.randomUUID();
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public UserEntity(){
+        this.uuid = UUID.randomUUID();
+        this.username = "default";
+        this.email = "test@test.com";
+        this.password = "123456";     
     }
 
     public String getName() {
@@ -40,7 +59,7 @@ public class UserEntity {
         return email;
     }
 
-    public String getUUID(){
+    public UUID getUUID(){
         return this.uuid;
     }
 
@@ -50,5 +69,9 @@ public class UserEntity {
 
     public void setPassword(String password){
         this.password = password;
+    }
+
+    public String getHKID() {
+        return this.hkid;
     }
 }

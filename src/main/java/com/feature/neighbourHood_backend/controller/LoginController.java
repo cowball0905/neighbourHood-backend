@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.feature.neighbourHood_backend.model.DTO.LoginRequestDTO;
 import com.feature.neighbourHood_backend.model.DTO.LoginResponseDTO;
+import com.feature.neighbourHood_backend.model.DTO.RegisterRequestDTO;
 import com.feature.neighbourHood_backend.service.UserService;
 
 @RestController
@@ -31,6 +32,19 @@ public class LoginController {
         } else {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "Invalid username or password");
+            return ResponseEntity.status(401).body(response);
+        }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Map<String,String>>login(@RequestBody RegisterRequestDTO request) {
+        String responseString = userService.register(request);
+        Map<String,String> response = new HashMap<>();
+        response.put("message", responseString);
+
+        if (response.get("message").equals("Succeed")) {
+            return ResponseEntity.ok(response);
+        } else {
             return ResponseEntity.status(401).body(response);
         }
     }
