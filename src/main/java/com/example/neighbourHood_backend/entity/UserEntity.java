@@ -1,4 +1,4 @@
-package com.example.neighbourHood_backend.Entity;
+package com.example.neighbourHood_backend.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

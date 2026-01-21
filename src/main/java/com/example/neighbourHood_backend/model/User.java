@@ -1,4 +1,4 @@
-package com.example.neighbourHood_backend.Model;
+package com.example.neighbourHood_backend.model;
 
 public class User {
     String username;

@@ -1,12 +1,22 @@
+package com.example.neighbourHood_backend.request;
+
 public class LoginResponseDTO{
     private String token;
     private UserDTO user;
 
-    public setToken(String token){
+    public void setToken(String token){
         this.token = token;
     }
 
-    public setUser(String username, String uuid){
-        User
+    public void setUser(String username, String uuid){
+        this.user = new UserDTO(username, uuid);
+    }
+
+    public String getToken(){
+        return token;
+    }
+
+    public UserDTO getUser(){
+        return user;
     }
 }
