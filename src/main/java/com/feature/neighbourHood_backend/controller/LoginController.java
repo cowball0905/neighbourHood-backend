@@ -27,19 +27,17 @@ public class LoginController {
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) {
         LoginResponseDTO response = userService.login(request);
 
-        if (response != null) {
+        if (response.getMessage().equals("Login Successfully!")) {
             return ResponseEntity.ok(response);
         } else {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("message", "Invalid username or password");
             return ResponseEntity.status(401).body(response);
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String,String>>login(@RequestBody RegisterRequestDTO request) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody RegisterRequestDTO request) {
         String responseString = userService.register(request);
-        Map<String,String> response = new HashMap<>();
+        Map<String, String> response = new HashMap<>();
         response.put("message", responseString);
 
         if (response.get("message").equals("Succeed")) {

@@ -1,8 +1,6 @@
 package com.feature.neighbourHood_backend.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,33 +16,33 @@ import com.feature.neighbourHood_backend.util.jwtUtil;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final List<User> users = new ArrayList<>();
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        List<UserEntity> usersEntity = userRepository.findAll();
-        for (UserEntity userE : usersEntity) {
-            users.add(entityToModel(userE));
-        }
     }
 
     public LoginResponseDTO login(LoginRequestDTO request) {
-        String username = request.getUsername();
+        String email = request.getEmail();
         String password = request.getPassword();
-        for (User user : this.users) {
-            if (user.getName().equals(username)) {
-                if (authUtil.matchesPassword(password, user.getPassword())) {
-                    String token = jwtUtil.createToken(user);
-                    LoginResponseDTO response = new LoginResponseDTO();
-                    response.setToken(token);
-                    response.setUser(username, user.getUuid(), user.getEmail());
-                    return response;
-                } else {
-                    return null;
-                }
+        Optional<UserEntity> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            if (authUtil.matchesPassword(password, entityToModel(user.get()).getPassword())) {
+                String token = jwtUtil.createToken(entityToModel(user.get()));
+                LoginResponseDTO response = new LoginResponseDTO();
+                response.setToken(token);
+                response.setUser(entityToModel(user.get()).getName(), entityToModel(user.get()).getUuid(),
+                        entityToModel(user.get()).getEmail());
+                response.setMessage("Login Successfully!");
+                return response;
+            } else {
+                LoginResponseDTO response = new LoginResponseDTO();
+                response.setMessage("Invalid password");
+                return response;
             }
         }
-        return null;
+        LoginResponseDTO response = new LoginResponseDTO();
+        response.setMessage("Invalid email");
+        return response;
     }
 
     public String register(RegisterRequestDTO request) {
@@ -52,10 +50,8 @@ public class UserService {
         String email = request.getEmail();
         String password = request.getPassword();
 
-        for (User user : this.users) {
-            if (user.getEmail().equals(email)) {
-                return "email repeated";
-            }
+        if (userRepository.findByEmail(email).get().getEmail().equals(email)) {
+            return "email repeated";
         }
         String passwordHash = authUtil.encryptPassword(password);
         UserEntity userE = new UserEntity(username, email, passwordHash);

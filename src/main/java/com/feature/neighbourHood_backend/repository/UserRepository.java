@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.feature.neighbourHood_backend.model.entity.UserEntity;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, UUID>{
+public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     Optional<UserEntity> findByUsername(String username);
+
+    Optional<UserEntity> findByEmail(String email);
 }
