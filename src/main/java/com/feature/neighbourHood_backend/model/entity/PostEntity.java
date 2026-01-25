@@ -48,7 +48,7 @@ public class PostEntity {
     @JoinColumn(name = "posts_user_id_fkey")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "photos")
+    @OneToMany(mappedBy = "post")
     List<PhotoEntity> postPhotos;
 
     public PostEntity() {
