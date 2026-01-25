@@ -27,16 +27,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())  // 禁用 CSRF（API 不需要）
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 不使用 session，用 JWT
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/login", "/api/register", "/db-test").permitAll()  // 這些不需要認證
-                .anyRequest().authenticated()  // 其他請求需要認證
-            )
-            .addFilterBefore(new jwtAuthFilter(jwtUtil, userService), 
-                UsernamePasswordAuthenticationFilter.class);  // 加入 JWT filter
-        
+                .csrf(csrf -> csrf.disable()) // 禁用 CSRF（API 不需要）
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 不使用 session，用 JWT
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/login", "/api/register", "/db-test", "/api/files/**").permitAll() // 這些不需要認證
+                        .anyRequest().authenticated() // 其他請求需要認證
+                )
+                .addFilterBefore(new jwtAuthFilter(jwtUtil, userService),
+                        UsernamePasswordAuthenticationFilter.class); // 加入 JWT filter
+
         return http.build();
     }
 }
