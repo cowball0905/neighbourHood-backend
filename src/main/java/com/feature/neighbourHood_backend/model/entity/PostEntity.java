@@ -1,6 +1,8 @@
 package com.feature.neighbourHood_backend.model.entity;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.ArrayList;
 
 import com.feature.neighbourHood_backend.model.entity.UserEntity;
 
@@ -8,6 +10,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -23,6 +27,8 @@ public class PostEntity {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "title")
@@ -41,27 +47,27 @@ public class PostEntity {
     private int redeemPoints;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private PostEnum type;
 
     @ManyToOne
-    @JoinColumn(name = "posts_user_id_fkey")
+    @JoinColumn(name = "user_id", referencedColumnName = "uuid", nullable = false)
     private UserEntity user;
 
     @OneToMany(mappedBy = "post")
-    List<PhotoEntity> postPhotos;
+    List<PhotoEntity> postPhotos = new ArrayList<>();
 
     public PostEntity() {
     }
 
     public PostEntity(String title, String content,
-            PostEnum type, UserEntity user, int redeemPoints) {
+            PostEnum type, UserEntity user2, int redeemPoints) {
         this.title = title;
         this.content = content;
         this.like_count = 0;
         this.share_count = 0;
         this.type = type;
-        this.user = user;
+        this.user = user2;
 
         if (type.ordinal() == 0) {
             this.redeemPoints = redeemPoints;
@@ -118,6 +124,10 @@ public class PostEntity {
 
     public PostEnum getType() {
         return type;
+    }
+
+    public void addPhoto(PhotoEntity photo) {
+        postPhotos.add(photo);
     }
 
     public void setType(PostEnum type) {

@@ -20,34 +20,30 @@ public class UserEntity {
     @Column(name = "email")
     private String email;
 
-    @Column(name= "password")
+    @Column(name = "password")
     private String password;
 
-    @Column(name= "hkid")
+    @Column(name = "hkid")
     private String hkid;
 
-    @Column(name= "house")
+    @Column(name = "house")
     private String house;
 
-    public UserEntity(String username,String email,String password){
+    public UserEntity(String username, String email, String password) {
         this.uuid = UUID.randomUUID();
         this.username = username;
         this.email = email;
         this.password = password;
     }
 
-    public UserEntity(){
-        this.uuid = UUID.randomUUID();
-        this.username = "default";
-        this.email = "test@test.com";
-        this.password = "123456";     
+    public UserEntity() {
     }
 
     public String getName() {
         return username;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 
@@ -59,7 +55,7 @@ public class UserEntity {
         return email;
     }
 
-    public UUID getUUID(){
+    public UUID getUUID() {
         return this.uuid;
     }
 
@@ -67,7 +63,7 @@ public class UserEntity {
         this.email = email;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
