@@ -23,6 +23,7 @@ public class PhotoEntity {
     @Column(name = "url")
     private String url;
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "uploaded_at")
     private Date createTime;
 

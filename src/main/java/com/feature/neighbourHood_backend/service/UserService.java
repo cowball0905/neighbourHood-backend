@@ -1,6 +1,8 @@
 package com.feature.neighbourHood_backend.service;
 
 import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import com.feature.neighbourHood_backend.model.User;
@@ -59,7 +61,7 @@ public class UserService {
     }
 
     public boolean findByUsername(String username) {
-        if (userRepository.findByUsername(username) != null) {
+        if (userRepository.findByUsername(username).isPresent()) {
             return true;
         }
         return false;
@@ -68,5 +70,12 @@ public class UserService {
     public static User entityToModel(UserEntity userEntity) {
         return new User(userEntity.getName(), userEntity.getEmail(), userEntity.getPassword(), userEntity.getHKID(),
                 userEntity.getUUID(), null);
+    }
+
+    public boolean findById(UUID uuid) {
+        if (userRepository.findById(uuid).isPresent()) {
+            return true;
+        }
+        return false;
     }
 }

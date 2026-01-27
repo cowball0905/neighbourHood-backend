@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.feature.neighbourHood_backend.model.DTO.ApiResponse;
-import com.feature.neighbourHood_backend.model.DTO.createAnnouncementDTO;
-import com.feature.neighbourHood_backend.model.DTO.createRequestDTO;
+import com.feature.neighbourHood_backend.model.DTO.createPostDTO;
 import com.feature.neighbourHood_backend.model.entity.PhotoEntity;
 import com.feature.neighbourHood_backend.model.entity.PostEntity;
 import com.feature.neighbourHood_backend.service.PhotoService;
@@ -38,11 +37,13 @@ public class PostController {
         this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping("/create-request")
+    @PostMapping("/create-post")
     public ResponseEntity<ApiResponse> createRequest(@RequestHeader String token,
-            @ModelAttribute createRequestDTO request) {
-        PostEntity post = postService.createRequest(request.getTitle(), request.getContent(), jwtUtil.extractID(token),
-                request.getRedeemPoints());
+            @ModelAttribute createPostDTO request) {
+        PostEntity post = postService.createRequest(request.getTitle(), request.getContent(), request.getType(),
+                jwtUtil.extractID(token),
+                request.getRedeemPoints(), request.getRequestType(), request.getPaymentMethod(),
+                request.getIsImportant());
 
         List<String> urls = new ArrayList<>();
         if (request.getFiles() != null) {
@@ -56,12 +57,5 @@ public class PostController {
         postService.connectPhotos(post.getId(), photos);
         return ResponseEntity.status(200)
                 .body(new ApiResponse<>("200", true, post.getId(), "Request created successfully"));
-    }
-
-    @PostMapping("/create-announcement")
-    public ResponseEntity<ApiResponse> createRequest(@RequestBody createAnnouncementDTO request) {
-
-        return ResponseEntity.status(200)
-                .body(new ApiResponse<>("200", true, null, "Announcement created successfully"));
     }
 }

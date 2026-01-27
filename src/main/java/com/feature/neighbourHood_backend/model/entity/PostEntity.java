@@ -1,10 +1,7 @@
 package com.feature.neighbourHood_backend.model.entity;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.ArrayList;
-
-import com.feature.neighbourHood_backend.model.entity.UserEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,10 +18,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "posts")
 public class PostEntity {
-    public enum PostEnum {
-        REQUEST,
-        ANNOUNCEMENT
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,12 +36,20 @@ public class PostEntity {
     @Column(name = "share_count")
     private int share_count;
 
+    @Column(name = "payment_method")
+    private int payment_method;
+
+    @Column(name = "request_type")
+    private int request_type;
+
+    @Column(name = "is_important")
+    private Boolean is_important;
+
     @Column(name = "points_to_redeem")
     private int redeemPoints;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "type", nullable = false)
-    private PostEnum type;
+    @Column(name = "type")
+    private int type;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "uuid", nullable = false)
@@ -61,16 +62,20 @@ public class PostEntity {
     }
 
     public PostEntity(String title, String content,
-            PostEnum type, UserEntity user2, int redeemPoints) {
+            int type, UserEntity user, int redeemPoints, int request_type, int payment_method, boolean is_important) {
         this.title = title;
         this.content = content;
         this.like_count = 0;
         this.share_count = 0;
         this.type = type;
-        this.user = user2;
+        this.user = user;
 
-        if (type.ordinal() == 0) {
+        if (type == 0) {
             this.redeemPoints = redeemPoints;
+            this.request_type = request_type;
+            this.payment_method = payment_method;
+        } else {
+            this.is_important = is_important;
         }
     }
 
@@ -122,7 +127,7 @@ public class PostEntity {
         this.redeemPoints = redeemPoints;
     }
 
-    public PostEnum getType() {
+    public int getType() {
         return type;
     }
 
@@ -130,7 +135,7 @@ public class PostEntity {
         postPhotos.add(photo);
     }
 
-    public void setType(PostEnum type) {
+    public void setType(int type) {
         this.type = type;
     }
 
