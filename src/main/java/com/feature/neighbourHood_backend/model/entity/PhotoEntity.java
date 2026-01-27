@@ -1,6 +1,7 @@
 package com.feature.neighbourHood_backend.model.entity;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,8 +25,8 @@ public class PhotoEntity {
     private String url;
 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "uploaded_at")
-    private Date createTime;
+    @Column(name = "uploaded_at", insertable = false, updatable = false)
+    private LocalDateTime createTime;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
@@ -37,6 +38,7 @@ public class PhotoEntity {
     public PhotoEntity(String url, PostEntity post) {
         this.url = url;
         this.post = post;
+
     }
 
     public Long getId() {
@@ -55,12 +57,8 @@ public class PhotoEntity {
         this.url = url;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
     }
 
     public PostEntity getPost() {
