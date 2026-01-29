@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.feature.neighbourHood_backend.model.entity.PhotoEntity;
 import com.feature.neighbourHood_backend.model.entity.PostEntity;
-import com.feature.neighbourHood_backend.model.entity.UserEntity;
+import com.feature.neighbourHood_backend.model.entity.User;
 import com.feature.neighbourHood_backend.repository.PostRepository;
 import com.feature.neighbourHood_backend.repository.UserRepository;
 
@@ -25,7 +25,7 @@ public class PostService {
 
     public PostEntity createRequest(String title, String content, int type, UUID userId, int redeemPoints,
             int request_type, int payment_method, boolean is_important) {
-        Optional<UserEntity> user = userRepository.findById(userId);
+        Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             PostEntity post = new PostEntity(title, content, type, user.get(), redeemPoints, request_type,
                     payment_method, is_important);

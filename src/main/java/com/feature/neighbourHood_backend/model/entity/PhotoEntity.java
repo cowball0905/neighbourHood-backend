@@ -12,7 +12,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Table(name = "photos")
 @Entity
 public class PhotoEntity {
@@ -39,33 +41,5 @@ public class PhotoEntity {
         this.url = url;
         this.post = post;
 
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public PostEntity getPost() {
-        return post;
-    }
-
-    public void setPost(PostEntity post) {
-        this.post = post;
     }
 }

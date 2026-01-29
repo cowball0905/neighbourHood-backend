@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,7 +12,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "posts")
 public class PostEntity {
@@ -53,7 +53,7 @@ public class PostEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "uuid", nullable = false)
-    private UserEntity user;
+    private User user;
 
     @OneToMany(mappedBy = "post")
     List<PhotoEntity> postPhotos = new ArrayList<>();
@@ -62,7 +62,7 @@ public class PostEntity {
     }
 
     public PostEntity(String title, String content,
-            int type, UserEntity user, int redeemPoints, int request_type, int payment_method, boolean is_important) {
+            int type, User user, int redeemPoints, int request_type, int payment_method, boolean is_important) {
         this.title = title;
         this.content = content;
         this.like_count = 0;
@@ -79,71 +79,15 @@ public class PostEntity {
         }
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public int getLike_count() {
-        return like_count;
-    }
-
-    public void setLike_count(int like_count) {
-        this.like_count = like_count;
-    }
-
-    public int getShare_count() {
-        return share_count;
-    }
-
-    public void setShare_count(int share_count) {
-        this.share_count = share_count;
-    }
-
-    public int getRedeemPoints() {
-        return redeemPoints;
-    }
-
-    public void setRedeemPoints(int redeemPoints) {
-        this.redeemPoints = redeemPoints;
-    }
-
-    public int getType() {
-        return type;
-    }
-
     public void addPhoto(PhotoEntity photo) {
         postPhotos.add(photo);
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public Long getId() {
+        return id;
     }
 
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
+    public void setUser(User user) {
         this.user = user;
     }
 }

@@ -1,0 +1,90 @@
+package com.feature.neighbourHood_backend.model.entity;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @Column(name = "uuid", columnDefinition = "uuid")
+    private UUID uuid;
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "hkid")
+    private String hkid;
+
+    @Column(name = "house")
+    private String house;
+
+    public User(String username, String email, String password) {
+        this.uuid = UUID.randomUUID();
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<PostEntity> posts = new ArrayList<>();
+
+    // 提供一个辅助方法
+    public void addPost(PostEntity post) {
+        posts.add(post);
+        post.setUser(this);
+    }
+
+    @ManyToMany
+    @JoinTable(name = "user_role", // 中间表名
+            joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    public User() {
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public List<PostEntity> getPosts() {
+        return posts;
+    }
+
+}

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.feature.neighbourHood_backend.model.CustomUserDetails;
 import com.feature.neighbourHood_backend.model.DTO.ApiResponse;
 import com.feature.neighbourHood_backend.model.DTO.createPostDTO;
 import com.feature.neighbourHood_backend.model.entity.PhotoEntity;
@@ -38,10 +41,10 @@ public class PostController {
     }
 
     @PostMapping("/create-post")
-    public ResponseEntity<ApiResponse> createRequest(@RequestHeader String token,
+    public ResponseEntity<ApiResponse> createRequest(@AuthenticationPrincipal CustomUserDetails userDetails,
             @ModelAttribute createPostDTO request) {
         PostEntity post = postService.createRequest(request.getTitle(), request.getContent(), request.getType(),
-                jwtUtil.extractID(token),
+                userDetails.getUuid(),
                 request.getRedeemPoints(), request.getRequestType(), request.getPaymentMethod(),
                 request.getIsImportant());
 

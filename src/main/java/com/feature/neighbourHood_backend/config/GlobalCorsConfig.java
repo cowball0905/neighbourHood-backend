@@ -16,7 +16,7 @@ public class GlobalCorsConfig {
                 // 映射路徑
                 registry.addMapping("/**")
                         // 允許跨網域請求的來源
-                        .allowedOrigins("http://localhost:3000")
+                        .allowedOrigins("http://localhost:3000/")
                         // 允許跨域攜帶cookie資訊，預設跨網域請求是不攜帶cookie資訊的。
                         .allowCredentials(true)
                         // 允許使用那些請求方式

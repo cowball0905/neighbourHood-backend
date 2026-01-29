@@ -6,11 +6,11 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.feature.neighbourHood_backend.model.entity.UserEntity;
+import com.feature.neighbourHood_backend.model.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, UUID> {
-    Optional<UserEntity> findByUsername(String username);
+public interface UserRepository extends JpaRepository<User, UUID> {
+    Optional<User> findByUsername(String username);
 
-    Optional<UserEntity> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 }
