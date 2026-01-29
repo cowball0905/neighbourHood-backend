@@ -10,20 +10,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.feature.neighbourHood_backend.model.CustomUserDetails;
+import com.feature.neighbourHood_backend.model.entity.Role;
 import com.feature.neighbourHood_backend.model.entity.User;
+import com.feature.neighbourHood_backend.repository.RoleRepository;
 import com.feature.neighbourHood_backend.repository.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder encoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.encoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -50,13 +54,16 @@ public class UserService implements UserDetailsService {
 
     public boolean register(String username, String email, String password) {
         Optional<User> user = userRepository.findByEmail(email);
+        Optional<Role> role = roleRepository.findByName("USER");
 
         if (user.isPresent()) {
             return false;
-        } else {
-            User rUser = new User(username, email, encoder.encode(password));
+        } else if (role.isPresent()) {
+            User rUser = new User(username, email, encoder.encode(password), role.get());
             userRepository.save(rUser);
             return true;
+        } else {
+            return false;
         }
     }
 }

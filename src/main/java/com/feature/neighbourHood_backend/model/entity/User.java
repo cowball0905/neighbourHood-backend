@@ -39,25 +39,24 @@ public class User {
     @Column(name = "house")
     private String house;
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, Role userRole) {
         this.uuid = UUID.randomUUID();
         this.username = username;
         this.email = email;
         this.password = password;
+        this.roles.add(userRole);
     }
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<PostEntity> posts = new ArrayList<>();
 
-    // 提供一个辅助方法
     public void addPost(PostEntity post) {
         posts.add(post);
         post.setUser(this);
     }
 
     @ManyToMany
-    @JoinTable(name = "user_role", // 中间表名
-            joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     public User() {
