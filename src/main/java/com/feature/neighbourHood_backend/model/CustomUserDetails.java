@@ -69,4 +69,8 @@ public class CustomUserDetails implements UserDetails {
     public UUID getUuid() {
         return user.getUuid();
     }
+
+    public User getUser() {
+        return user;
+    }
 }

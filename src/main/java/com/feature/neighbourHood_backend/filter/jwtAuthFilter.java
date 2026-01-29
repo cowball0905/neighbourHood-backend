@@ -52,19 +52,11 @@ public class jwtAuthFilter extends OncePerRequestFilter {
                             null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
-                } 
+                }
             }
-        } catch (ExpiredJwtException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Token 已過期");
-            return;
-        } catch (MalformedJwtException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("無效的 Token");
-            return;
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("認證失敗" + e.getMessage());
+            response.getWriter().write(e.getMessage());
             return;
         }
 

@@ -12,7 +12,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Date;
 import java.util.UUID;
-import java.util.function.Function;
 
 @Component
 public class jwtUtil {
@@ -43,24 +42,10 @@ public class jwtUtil {
                 .getBody();
     }
 
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
-
-    public UUID extractID(String token) {
-        final Claims claims = parseToken(token);
-        return UUID.fromString(claims.get("userID", String.class));
-    }
-
-    private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
-        final Claims claims = parseToken(token);
-        return claimResolver.apply(claims);
-    }
-
     public boolean validateToken(String token, UserDetails userDetails) {
-        final Claims claims = parseToken(token);
-        final String tokenEmail = claims.get("userEmail", String.class);
-        final String userEmail = ((CustomUserDetails) userDetails).getEmail();
+        Claims claims = parseToken(token);
+        String tokenEmail = claims.get("userEmail", String.class);
+        String userEmail = ((CustomUserDetails) userDetails).getEmail();
         return (tokenEmail.equals(userEmail) && !isTokenExpired(token));
     }
 
