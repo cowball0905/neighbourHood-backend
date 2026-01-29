@@ -35,7 +35,7 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
 
-        return new CustomUserDetails(user);
+        return new CustomUserDetails(user, user.getRoles());
     }
 
     public boolean findByUsername(String username) {

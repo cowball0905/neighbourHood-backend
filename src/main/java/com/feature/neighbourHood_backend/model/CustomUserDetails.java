@@ -1,23 +1,28 @@
 package com.feature.neighbourHood_backend.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.feature.neighbourHood_backend.model.entity.Role;
 import com.feature.neighbourHood_backend.model.entity.User;
 
 public class CustomUserDetails implements UserDetails {
     private final User user;
     private List<SimpleGrantedAuthority> authorities;
 
-    public CustomUserDetails(User user) {
+    public CustomUserDetails(User user, Set<Role> roles) {
         this.user = user;
 
-        this.authorities = user.getRoles().stream()
+        List<Role> roleList = new ArrayList<>(roles);
+
+        this.authorities = roleList.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                 .toList();
     }

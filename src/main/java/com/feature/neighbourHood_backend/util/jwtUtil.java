@@ -4,7 +4,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.feature.neighbourHood_backend.model.CustomUserDetails;
-import com.feature.neighbourHood_backend.model.entity.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -26,7 +25,8 @@ public class jwtUtil {
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("alg", "HS256")
                 .setSubject(user.getUsername())
-                .claim("userID", user.getEmail())
+                .claim("userID", user.getUuid())
+                .claim("userEmail", user.getEmail())
                 .setExpiration(new Date(System.currentTimeMillis() + time))
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .setId(UUID.randomUUID().toString())
@@ -58,8 +58,10 @@ public class jwtUtil {
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String username = parseToken(token).getSubject();
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final Claims claims = parseToken(token);
+        final String tokenEmail = claims.get("userEmail", String.class);
+        final String userEmail = ((CustomUserDetails) userDetails).getEmail();
+        return (tokenEmail.equals(userEmail) && !isTokenExpired(token));
     }
 
     private boolean isTokenExpired(String token) {
