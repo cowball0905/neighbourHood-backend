@@ -3,6 +3,7 @@ package com.feature.neighbourHood_backend.service;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -65,5 +66,12 @@ public class UserService implements UserDetailsService {
         } else {
             return false;
         }
+    }
+
+    public User getUser(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+
+        return user;
     }
 }
