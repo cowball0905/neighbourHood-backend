@@ -35,6 +35,32 @@ public class PostService {
         return null;
     }
 
+    public PostEntity findById(Long id) {
+        Optional<PostEntity> post = postRepository.findById(id);
+        if (post.isPresent()) {
+            return post.get();
+        }
+        return null;
+    }
+
+    public List<PostEntity> findAll() {
+        return postRepository.findAll();
+    }
+
+    public int acceptRequest(Long id, UUID uuid) {
+        Optional<PostEntity> post = postRepository.findById(id);
+        if (post.isPresent()) {
+            Optional<User> user = userRepository.findById(uuid);
+            if (user.isPresent()) {
+                post.get().setAcceptUser(user.get());
+                return 1;
+            } else {
+                return 2;
+            }
+        }
+        return 3;
+    }
+
     public void connectPhotos(Long id, List<PhotoEntity> photos) {
         Optional<PostEntity> post = postRepository.findById(id);
         if (post.isPresent()) {

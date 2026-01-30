@@ -55,6 +55,10 @@ public class PostEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "uuid", nullable = false)
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "accept_user_id", referencedColumnName = "uuid")
+    private User acceptUser;
+
     @OneToMany(mappedBy = "post")
     List<PhotoEntity> postPhotos = new ArrayList<>();
 
@@ -89,5 +93,9 @@ public class PostEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setAcceptUser(User user) {
+        this.acceptUser = user;
     }
 }
