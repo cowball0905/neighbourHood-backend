@@ -52,7 +52,9 @@ public class PostService {
         if (post.isPresent()) {
             Optional<User> user = userRepository.findById(uuid);
             if (user.isPresent()) {
-                post.get().setAcceptUser(user.get());
+                PostEntity postEntity = post.get();
+                postEntity.setAcceptUser(user.get());
+                postRepository.save(postEntity);
                 return 1;
             } else {
                 return 2;
