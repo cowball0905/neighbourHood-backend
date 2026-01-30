@@ -40,7 +40,7 @@ public class LoginController {
         CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(dto.getEmail());
         String token = jwtUtil.createToken(userDetails);
 
-        return new ApiResponse<>(true, token);
+        return new ApiResponse<>(true, token, "success");
     }
 
     @PostMapping("/register")
