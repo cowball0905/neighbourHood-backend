@@ -1,5 +1,7 @@
 package com.feature.neighbourHood_backend.model.DTO;
 
+import java.time.LocalDateTime;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class createPostDTO {
@@ -11,13 +13,15 @@ public class createPostDTO {
     private int payment_method;
     private MultipartFile[] files;
     private boolean is_important;
+    private LocalDateTime startTime;
+    private int duration;
 
     public createPostDTO() {
     }
 
     public createPostDTO(String title, String content, int type, int redeemPoints, MultipartFile[] files,
             int request_type,
-            int payment_method, boolean is_important) {
+            int payment_method, boolean is_important, LocalDateTime startTime, int duration) {
         this.title = title;
         this.content = content;
         this.type = type;
@@ -26,6 +30,16 @@ public class createPostDTO {
         this.request_type = request_type;
         this.payment_method = payment_method;
         this.is_important = is_important;
+        this.startTime = startTime;
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public int getDuration() {
+        return duration;
     }
 
     public int getType() {

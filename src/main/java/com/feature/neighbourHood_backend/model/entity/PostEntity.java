@@ -1,6 +1,7 @@
 package com.feature.neighbourHood_backend.model.entity;
 
 import java.util.List;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import jakarta.persistence.Column;
@@ -51,6 +52,17 @@ public class PostEntity {
     @Column(name = "type")
     private int type;
 
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
+
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "uploaded_at", insertable = false, updatable = false)
+    private LocalDateTime createTime;
+
+    // if it is 0, mean it does not have a total duration
+    @Column(name = "duration")
+    private int duration;
+
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "uuid", nullable = false)
     private User user;
@@ -66,13 +78,16 @@ public class PostEntity {
     }
 
     public PostEntity(String title, String content,
-            int type, User user, int redeemPoints, int request_type, int payment_method, boolean is_important) {
+            int type, User user, int redeemPoints, int request_type, int payment_method, boolean is_important,
+            LocalDateTime time, int duration) {
         this.title = title;
         this.content = content;
         this.like_count = 0;
         this.share_count = 0;
         this.type = type;
         this.user = user;
+        this.startTime = time;
+        this.duration = duration;
 
         if (type == 0) {
             this.redeemPoints = redeemPoints;

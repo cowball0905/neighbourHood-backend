@@ -1,5 +1,6 @@
 package com.feature.neighbourHood_backend.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,11 +25,11 @@ public class PostService {
     }
 
     public PostEntity createRequest(String title, String content, int type, UUID userId, int redeemPoints,
-            int request_type, int payment_method, boolean is_important) {
+            int request_type, int payment_method, boolean is_important, LocalDateTime time, int duration) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             PostEntity post = new PostEntity(title, content, type, user.get(), redeemPoints, request_type,
-                    payment_method, is_important);
+                    payment_method, is_important, time, duration);
             post = postRepository.save(post);
             return post;
         }

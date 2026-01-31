@@ -50,7 +50,7 @@ public class PostController {
         PostEntity post = postService.createRequest(request.getTitle(), request.getContent(), request.getType(),
                 userDetails.getUuid(),
                 request.getRedeemPoints(), request.getRequestType(), request.getPaymentMethod(),
-                request.getIsImportant());
+                request.getIsImportant(), request.getStartTime(), request.getDuration());
 
         List<String> urls = new ArrayList<>();
         if (request.getFiles() != null) {
