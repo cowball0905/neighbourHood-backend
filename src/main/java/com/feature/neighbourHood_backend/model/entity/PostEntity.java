@@ -1,6 +1,9 @@
 package com.feature.neighbourHood_backend.model.entity;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -64,6 +67,7 @@ public class PostEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "uuid", nullable = false)
+    @JsonIgnoreProperties({ "email", "house" })
     private User user;
 
     @ManyToOne
