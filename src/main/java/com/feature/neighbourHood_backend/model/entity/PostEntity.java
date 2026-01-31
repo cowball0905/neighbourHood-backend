@@ -55,13 +55,12 @@ public class PostEntity {
     @Column(name = "start_time")
     private LocalDateTime startTime;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "uploaded_at", insertable = false, updatable = false)
+    @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createTime;
 
     // if it is 0, mean it does not have a total duration
     @Column(name = "duration")
-    private int duration;
+    private int duration = 0;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "uuid", nullable = false)

@@ -38,8 +38,16 @@ public class createPostDTO {
         return startTime;
     }
 
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
     public int getDuration() {
         return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public int getType() {
@@ -92,5 +100,9 @@ public class createPostDTO {
 
     public boolean getIsImportant() {
         return this.is_important;
+    }
+
+    public void setIsImportant(boolean bool) {
+        this.is_important = bool;
     }
 }
