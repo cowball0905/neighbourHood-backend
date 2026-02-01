@@ -58,12 +58,11 @@ public class PostEntity {
     @Column(name = "start_time")
     private LocalDateTime startTime;
 
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
+
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createTime;
-
-    // if it is 0, mean it does not have a total duration
-    @Column(name = "duration")
-    private int duration = 0;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "uuid", nullable = false)
@@ -82,15 +81,15 @@ public class PostEntity {
 
     public PostEntity(String title, String content,
             int type, User user, int redeemPoints, int request_type, int payment_method, boolean is_important,
-            LocalDateTime time, int duration) {
+            LocalDateTime startTime, LocalDateTime endTime) {
         this.title = title;
         this.content = content;
         this.like_count = 0;
         this.share_count = 0;
         this.type = type;
         this.user = user;
-        this.startTime = time;
-        this.duration = duration;
+        this.startTime = startTime;
+        this.endTime = endTime;
 
         if (type == 0) {
             this.redeemPoints = redeemPoints;

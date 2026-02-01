@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import com.feature.neighbourHood_backend.model.entity.PhotoEntity;
@@ -25,11 +26,12 @@ public class PostService {
     }
 
     public PostEntity createRequest(String title, String content, int type, UUID userId, int redeemPoints,
-            int request_type, int payment_method, boolean is_important, LocalDateTime time, int duration) {
+            int request_type, int payment_method, boolean is_important, LocalDateTime startTime,
+            LocalDateTime endTime) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             PostEntity post = new PostEntity(title, content, type, user.get(), redeemPoints, request_type,
-                    payment_method, is_important, time, duration);
+                    payment_method, is_important, startTime, endTime);
             post = postRepository.save(post);
             return post;
         }

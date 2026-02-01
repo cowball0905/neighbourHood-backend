@@ -2,6 +2,8 @@ package com.feature.neighbourHood_backend.model.DTO;
 
 import java.time.LocalDateTime;
 
+import org.springframework.cglib.core.Local;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 public class createPostDTO {
@@ -13,8 +15,10 @@ public class createPostDTO {
     private int payment_method;
     private MultipartFile[] files;
     private boolean is_important;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
-    private int duration;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime endTime;
 
     public createPostDTO() {
     }
@@ -31,7 +35,7 @@ public class createPostDTO {
         this.payment_method = payment_method;
         this.is_important = is_important;
         this.startTime = startTime;
-        this.duration = duration;
+        this.endTime = endTime;
     }
 
     public LocalDateTime getStartTime() {
@@ -42,12 +46,12 @@ public class createPostDTO {
         this.startTime = startTime;
     }
 
-    public int getDuration() {
-        return duration;
+    public LocalDateTime getEndTime() {
+        return this.endTime;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public int getType() {
