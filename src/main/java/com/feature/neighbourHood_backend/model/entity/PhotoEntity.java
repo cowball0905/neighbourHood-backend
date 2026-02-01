@@ -3,6 +3,8 @@ package com.feature.neighbourHood_backend.model.entity;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -32,6 +34,7 @@ public class PhotoEntity {
 
     @ManyToOne
     @JoinColumn(name = "post_id")
+    @JsonIgnore
     private PostEntity post;
 
     public PhotoEntity() {
