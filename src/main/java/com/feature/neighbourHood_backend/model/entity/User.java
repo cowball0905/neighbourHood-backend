@@ -50,6 +50,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.roles.add(userRole);
+        this.likePosts = new HashSet<>();
     }
 
     @JsonIgnore
@@ -65,6 +66,11 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_likePosts", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "post_id"))
+    private Set<PostEntity> likePosts = new HashSet<>();
 
     public User() {
     }
@@ -93,4 +99,7 @@ public class User {
         return posts;
     }
 
+    public void addLike(PostEntity post){
+        this.likePosts.add(post);
+    }
 }

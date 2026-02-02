@@ -87,7 +87,7 @@ public class PostController {
         }
     }
 
-    @PostMapping("/acceptPost")
+    @PostMapping("/accept-post")
     public ResponseEntity<ApiResponse> acceptPost(@RequestBody Long postID, @RequestBody UUID uuid) {
         int response = postService.acceptRequest(postID, uuid);
         if (response == 1) {
@@ -97,5 +97,15 @@ public class PostController {
         } else {
             return ResponseEntity.status(404).body(new ApiResponse<>(false, "fail to find the post"));
         }
+    }
+
+    @PostMapping("/like-post")
+    public ResponseEntity<ApiResponse> likePost(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody Long postID) {
+        int response = postService.likePost(postID, userDetails.getUuid());
+        if (response == 1) {
+            return ResponseEntity.status(200).body(new ApiResponse<>(true, true,"success"));
+        } else {
+            return ResponseEntity.status(404).body(new ApiResponse<>(false,false, "fail to find corresponding user or post"));
+        } 
     }
 }

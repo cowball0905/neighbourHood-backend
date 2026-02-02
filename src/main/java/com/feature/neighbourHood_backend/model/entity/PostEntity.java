@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +16,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -22,7 +26,6 @@ import lombok.Data;
 @Entity
 @Table(name = "posts")
 public class PostEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -34,11 +37,9 @@ public class PostEntity {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "like_count")
-    private int like_count;
-
-    @Column(name = "share_count")
-    private int share_count;
+    @ManyToMany(mappedBy = "likePosts")
+    @JsonIgnoreProperties({ "email", "house" })
+    private Set<User> likeUsers;
 
     @Column(name = "payment_method")
     private int payment_method;
@@ -82,10 +83,9 @@ public class PostEntity {
     public PostEntity(String title, String content,
             int type, User user, int redeemPoints, int request_type, int payment_method, boolean is_important,
             LocalDateTime startTime, LocalDateTime endTime) {
+        this.likeUsers = new HashSet<>();
         this.title = title;
         this.content = content;
-        this.like_count = 0;
-        this.share_count = 0;
         this.type = type;
         this.user = user;
         this.startTime = startTime;
@@ -114,5 +114,9 @@ public class PostEntity {
 
     public void setAcceptUser(User user) {
         this.acceptUser = user;
+    }
+
+    public void addLike(User user){
+        this.likeUsers.add(user);
     }
 }
