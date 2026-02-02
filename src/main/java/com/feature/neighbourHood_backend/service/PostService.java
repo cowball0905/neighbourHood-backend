@@ -76,19 +76,19 @@ public class PostService {
         }
     }
 
-    public int likePost(Long postID, UUID userUuid){
-        Optional<User> user = userRepository.findById(userUuid);
-        Optional<PostEntity> post = postRepository.findById(postID);
+    // public int likePost(Long postID, UUID userUuid){
+    //     Optional<User> user = userRepository.findById(userUuid);
+    //     Optional<PostEntity> post = postRepository.findById(postID);
 
-        if(user.isPresent() && post.isPresent()){
-            User tUser = user.get();
-            PostEntity tPost = post.get();
-            tUser.addLike(tPost);
-            tPost.addLike(tUser);
-            userRepository.save(tUser);
-            postRepository.save(tPost);
-            return 1;
-        }
-        return 2;
-    }   
+    //     if(user.isPresent() && post.isPresent()){
+    //         User tUser = user.get();
+    //         PostEntity tPost = post.get();
+    //         tUser.addLike(tPost);
+    //         tPost.addLike(tUser);
+    //         userRepository.save(tUser);
+    //         postRepository.save(tPost);
+    //         return 1;
+    //     }
+    //     return 2;
+    // }   
 }

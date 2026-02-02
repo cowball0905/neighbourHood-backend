@@ -37,9 +37,9 @@ public class PostEntity {
     @Column(name = "content")
     private String content;
 
-    @ManyToMany(mappedBy = "likePosts")
-    @JsonIgnoreProperties({ "email", "house" })
-    private Set<User> likeUsers;
+    // @ManyToMany(mappedBy = "likePosts")
+    // @JsonIgnoreProperties({ "email", "house" })
+    // private Set<User> likeUsers;
 
     @Column(name = "payment_method")
     private int payment_method;
@@ -83,7 +83,7 @@ public class PostEntity {
     public PostEntity(String title, String content,
             int type, User user, int redeemPoints, int request_type, int payment_method, boolean is_important,
             LocalDateTime startTime, LocalDateTime endTime) {
-        this.likeUsers = new HashSet<>();
+        // this.likeUsers = new HashSet<>();
         this.title = title;
         this.content = content;
         this.type = type;
@@ -116,7 +116,7 @@ public class PostEntity {
         this.acceptUser = user;
     }
 
-    public void addLike(User user){
-        this.likeUsers.add(user);
-    }
+    // public void addLike(User user){
+    //     this.likeUsers.add(user);
+    // }
 }
