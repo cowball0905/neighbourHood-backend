@@ -2,7 +2,6 @@ package com.feature.neighbourHood_backend.model.DTO;
 
 import java.time.LocalDateTime;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -78,6 +77,10 @@ public class createPostDTO {
         return content;
     }
 
+    public void setRequest_type(int request_type){
+        this.request_type = request_type;
+    }
+
     public void setContent(String content) {
         this.content = content;
     }
@@ -106,7 +109,7 @@ public class createPostDTO {
         return this.is_important;
     }
 
-    public void setIsImportant(boolean bool) {
+    public void setIs_important(boolean bool) {
         this.is_important = bool;
     }
 }
