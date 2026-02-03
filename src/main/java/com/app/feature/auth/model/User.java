@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.app.feature.post.model.PostEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,9 +19,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
 
-@Data
 @Entity
 @Table(name = "users")
 public class User {
@@ -51,7 +50,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.roles.add(userRole);
-        // this.likePosts = new HashSet<>();
+        this.likePosts = new HashSet<>();
     }
 
     @JsonIgnore
@@ -68,10 +67,10 @@ public class User {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    // @JsonIgnore
-    // @ManyToMany(fetch = FetchType.EAGER)
-    // @JoinTable(name = "user_likePosts", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "post_id"))
-    // private Set<PostEntity> likePosts = new HashSet<>();
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(name = "user_likePosts", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "post_id"))
+    private Set<PostEntity> likePosts = new HashSet<>();
 
     public User() {
     }
@@ -100,7 +99,11 @@ public class User {
         return posts;
     }
 
-    // public void addLike(PostEntity post){
-    //     this.likePosts.add(post);
-    // }
+    public void addLike(PostEntity post){
+        this.likePosts.add(post);
+    }
+
+    public void removeLike(PostEntity tPost) {
+        this.likePosts.remove(tPost);
+    }
 }

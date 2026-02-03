@@ -10,19 +10,25 @@ import org.springframework.stereotype.Service;
 
 import com.app.feature.auth.model.User;
 import com.app.feature.auth.repository.UserRepository;
+import com.app.feature.notifications.model.Notification;
+import com.app.feature.notifications.service.NotificationService;
 import com.app.feature.photo.model.PhotoEntity;
 import com.app.feature.post.model.PostEntity;
 import com.app.feature.post.repository.PostRepository;
 
+import jakarta.transaction.Transactional;
+
+@Transactional 
 @Service
 public class PostService {
-
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository,NotificationService notificationService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.notificationService = notificationService;
     }
 
     public PostEntity createRequest(String title, String content, int type, UUID userId, int redeemPoints,
@@ -76,19 +82,27 @@ public class PostService {
         }
     }
 
-    // public int likePost(Long postID, UUID userUuid){
-    //     Optional<User> user = userRepository.findById(userUuid);
-    //     Optional<PostEntity> post = postRepository.findById(postID);
+    public int likePost(Long postID, UUID userUuid){
+        Optional<User> user = userRepository.findById(userUuid);
+        Optional<PostEntity> post = postRepository.findById(postID);
 
-    //     if(user.isPresent() && post.isPresent()){
-    //         User tUser = user.get();
-    //         PostEntity tPost = post.get();
-    //         tUser.addLike(tPost);
-    //         tPost.addLike(tUser);
-    //         userRepository.save(tUser);
-    //         postRepository.save(tPost);
-    //         return 1;
-    //     }
-    //     return 2;
-    // }   
+        if(user.isPresent() && post.isPresent()){
+            User tUser = user.get();
+            PostEntity tPost = post.get();
+            if(!tPost.getLikeUsers().contains(tUser)){
+                tUser.addLike(tPost);
+                tPost.addLike(tUser);
+                userRepository.save(tUser);
+                postRepository.save(tPost);
+            }else{
+                tUser.removeLike(tPost);
+                tPost.removeLike(tUser);
+                userRepository.save(tUser);
+                postRepository.save(tPost);      
+            }
+            notificationService.sendLikeNotifications(tPost);
+            return 1;
+        }
+        return 2;
+    }   
 }

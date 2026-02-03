@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 不使用 session，用 JWT
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/login", "/api/register", "/db-test").permitAll() // 這些不需要認證
+                        .requestMatchers("/api/login", "/api/register", "/db-test","/ws/**").permitAll() // 這些不需要認證
                         .anyRequest().authenticated() // 其他請求需要認證
                 )
                 .addFilterBefore(new jwtAuthFilter(jwtUtil, userService),
