@@ -18,14 +18,15 @@ import com.app.feature.post.repository.PostRepository;
 
 import jakarta.transaction.Transactional;
 
-@Transactional 
+@Transactional
 @Service
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final NotificationService notificationService;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository,NotificationService notificationService) {
+    public PostService(PostRepository postRepository, UserRepository userRepository,
+            NotificationService notificationService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.notificationService = notificationService;
@@ -82,27 +83,28 @@ public class PostService {
         }
     }
 
-    public int likePost(Long postID, UUID userUuid){
+    public int likePost(Long postID, UUID userUuid) {
         Optional<User> user = userRepository.findById(userUuid);
         Optional<PostEntity> post = postRepository.findById(postID);
 
-        if(user.isPresent() && post.isPresent()){
+        if (user.isPresent() && post.isPresent()) {
             User tUser = user.get();
             PostEntity tPost = post.get();
-            if(!tPost.getLikeUsers().contains(tUser)){
+            if (!tPost.getLikeUsers().contains(tUser)) {
                 tUser.addLike(tPost);
                 tPost.addLike(tUser);
                 userRepository.save(tUser);
                 postRepository.save(tPost);
-            }else{
+                notificationService.updateLikes(tPost, tUser, false, true);
+            } else {
                 tUser.removeLike(tPost);
                 tPost.removeLike(tUser);
                 userRepository.save(tUser);
-                postRepository.save(tPost);      
+                postRepository.save(tPost);
+                notificationService.updateLikes(tPost, tUser, true, false);
             }
-            notificationService.sendLikeNotifications(tPost);
             return 1;
         }
         return 2;
-    }   
+    }
 }
