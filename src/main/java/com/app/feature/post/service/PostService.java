@@ -95,13 +95,15 @@ public class PostService {
                 tPost.addLike(tUser);
                 userRepository.save(tUser);
                 postRepository.save(tPost);
-                notificationService.updateLikes(tPost, tUser, false, true);
+                boolean equal = tPost.getUser() == tUser;
+                notificationService.updateLikes(tPost, tUser, equal, true);
             } else {
                 tUser.removeLike(tPost);
                 tPost.removeLike(tUser);
                 userRepository.save(tUser);
                 postRepository.save(tPost);
-                notificationService.updateLikes(tPost, tUser, true, false);
+                boolean equal = tPost.getUser() == tUser;
+                notificationService.updateLikes(tPost, tUser, equal, false);
             }
             return 1;
         }

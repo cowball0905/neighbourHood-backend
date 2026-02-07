@@ -3,6 +3,8 @@ package com.app.feature.photo.model;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.app.feature.post.model.PostEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -31,6 +33,7 @@ public class PhotoEntity {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "uploaded_at", insertable = false, updatable = false)
+    @CreationTimestamp
     private LocalDateTime createTime;
 
     @ManyToOne

@@ -3,6 +3,8 @@ package com.app.feature.post.model;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.app.feature.auth.model.User;
 import com.app.feature.photo.model.PhotoEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -39,7 +41,7 @@ public class PostEntity {
     @Column(name = "content")
     private String content;
 
-    @ManyToMany(mappedBy = "likePosts",cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "likePosts", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({ "email", "house" })
     private Set<User> likeUsers;
 
@@ -65,6 +67,7 @@ public class PostEntity {
     private LocalDateTime endTime;
 
     @Column(name = "created_at", insertable = false, updatable = false)
+    @CreationTimestamp
     private LocalDateTime createTime;
 
     @ManyToOne
@@ -76,7 +79,7 @@ public class PostEntity {
     @JoinColumn(name = "accept_user_id", referencedColumnName = "uuid")
     private User acceptUser;
 
-    @OneToMany(mappedBy = "post",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     List<PhotoEntity> postPhotos = new ArrayList<>();
 
     public PostEntity() {
@@ -170,11 +173,11 @@ public class PostEntity {
         this.acceptUser = user;
     }
 
-    public void addLike(User user){
+    public void addLike(User user) {
         this.likeUsers.add(user);
     }
 
-    public Set<User> getLikeUsers(){
+    public Set<User> getLikeUsers() {
         return this.likeUsers;
     }
 
