@@ -46,11 +46,12 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public boolean findById(UUID uuid) {
-        if (userRepository.findById(uuid).isPresent()) {
-            return true;
+    public User findById(UUID uuid) {
+        Optional<User> user = userRepository.findById(uuid);
+        if (user.isPresent()) {
+            return user.get();
         }
-        return false;
+        return null;
     }
 
     public boolean register(String username, String email, String password) {

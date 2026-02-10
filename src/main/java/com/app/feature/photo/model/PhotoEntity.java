@@ -31,7 +31,6 @@ public class PhotoEntity {
     @Column(name = "url")
     private String url;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "uploaded_at", insertable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createTime;
