@@ -35,14 +35,14 @@ A Spring Boot backend application for a neighbourhood community platform that en
 - **Build Tool**: Maven
 - **Storage**: Supabase Storage
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Java 17
 - Maven 3.6+
 - PostgreSQL database (or Supabase account)
 - Supabase project for storage
 
-## ⚙️ Configuration
+## Configuration
 
 Create an `application.properties` file in `src/main/resources/`:
 
@@ -192,7 +192,7 @@ Content-Type: application/json
 }
 ```
 
-## 🔌 WebSocket Integration
+## WebSocket Integration
 
 ### Connection Endpoint
 ```
