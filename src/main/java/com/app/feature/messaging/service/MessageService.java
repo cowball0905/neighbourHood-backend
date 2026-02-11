@@ -39,24 +39,27 @@ public class MessageService {
         Message msg = new Message(user1, type, message);
         Optional<Conversation> searchConversation = conversationRepository.findByTwoUserAndPost(user1, user2,
                 post);
-        Message savedMsg = messageRepository.save(msg);
         if (searchConversation.isPresent()) {
             Conversation conversation = searchConversation.get();
-            conversation.addMessage(savedMsg);
+            msg.setConversation(conversation);
             conversation = conversationRepository.save(conversation);
+            conversation.addMessage(msg);
+            msg = messageRepository.save(conversation.getMessages().get(conversation.getMessages().size() - 1));
             messagingTemplate.convertAndSend(
                     "/topic/msg/" + conversation.getId(),
                     conversation);
-            Notification notification = new Notification(user1, user2, NotificationType.MESSAGE, savedMsg.getId());
+            Notification notification = new Notification(user1, user2, NotificationType.MESSAGE, msg.getId());
             notificationService.sendNotifications(notification, user1, user2);
         } else {
             Conversation conversation = new Conversation(user1, user2, post);
-            conversation.addMessage(savedMsg);
+            msg.setConversation(conversation);
             conversation = conversationRepository.save(conversation);
+            conversation.addMessage(msg);
+            msg = messageRepository.save(conversation.getMessages().get(conversation.getMessages().size() - 1));
             messagingTemplate.convertAndSend(
                     "/topic/msg/" + conversation.getId(),
                     conversation);
-            Notification notification = new Notification(user1, user2, NotificationType.MESSAGE, savedMsg.getId());
+            Notification notification = new Notification(user1, user2, NotificationType.MESSAGE, msg.getId());
             notificationService.sendNotifications(notification, user1, user2);
         }
     }

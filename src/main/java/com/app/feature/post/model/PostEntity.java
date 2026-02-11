@@ -70,12 +70,12 @@ public class PostEntity {
     private LocalDateTime createTime;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "uuid", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "uuid", nullable = false, columnDefinition = "UUID")
     @JsonIgnoreProperties({ "email", "house" })
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "accept_user_id", referencedColumnName = "uuid")
+    @JoinColumn(name = "accept_user_id", referencedColumnName = "uuid", columnDefinition = "UUID")
     private User acceptUser;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

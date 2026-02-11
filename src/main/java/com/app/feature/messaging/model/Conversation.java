@@ -2,6 +2,8 @@ package com.app.feature.messaging.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,7 +12,9 @@ import com.app.feature.auth.model.User;
 import com.app.feature.post.model.PostEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,12 +31,12 @@ public class Conversation {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user1_id")
+    @JoinColumn(name = "user1_id", columnDefinition = "UUID")
     @JsonIgnoreProperties({ "email", "house" })
     private User user1;
 
     @ManyToOne
-    @JoinColumn(name = "user2_id")
+    @JoinColumn(name = "user2_id", columnDefinition = "UUID")
     @JsonIgnoreProperties({ "email", "house" })
     private User user2;
 
@@ -43,7 +47,7 @@ public class Conversation {
     @CreationTimestamp
     private LocalDateTime createTime;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "conversation", cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
 
     public Conversation() {
@@ -88,6 +92,10 @@ public class Conversation {
     }
 
     public void addMessage(Message msg) {
-        this.messages.add(msg);
+        this.messages.add(messages.size(), msg);
+    }
+
+    public List<Message> getMessages() {
+        return this.messages;
     }
 }

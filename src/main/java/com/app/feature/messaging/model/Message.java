@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.app.feature.auth.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -23,7 +24,7 @@ public class Message {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "sender_id")
+    @JoinColumn(name = "sender_id", columnDefinition = "UUID")
     @JsonIgnoreProperties({ "email", "house" })
     private User sender;
 
@@ -35,6 +36,11 @@ public class Message {
     private String content;
 
     private boolean isRead = false;
+
+    @ManyToOne
+    @JoinColumn(name = "conversation_id")
+    @JsonIgnore
+    private Conversation conversation;
 
     public Message() {
     }
@@ -91,5 +97,9 @@ public class Message {
 
     public void setRead(boolean read) {
         isRead = read;
+    }
+
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
     }
 }
