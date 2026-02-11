@@ -22,7 +22,6 @@ A Spring Boot backend application for an estate community platform that enables 
 - **File Storage**
   - Integration with Supabase Storage
   - Image upload and management
-  - Secure file handling
 
 ## Prerequisites
   - PostgreSQL database (or Supabase account)
@@ -34,13 +33,14 @@ A Spring Boot backend application for an estate community platform that enables 
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/cowball0905/neighbourHood-backend.git
 cd neighbourHood-backend
 ```
 
 ### 2. Configure the application
 
 a. Build .env
+
 b. Update `src/main/resources/application.properties` with your database and Supabase credentials.
 
 ### 3. Build the project
