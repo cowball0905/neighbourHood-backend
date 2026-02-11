@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,8 @@ import com.app.feature.auth.model.User;
 import com.app.feature.auth.service.UserService;
 import com.app.feature.messaging.dto.createConversationDTO;
 import com.app.feature.messaging.model.Conversation;
+import com.app.feature.messaging.model.Message;
+import com.app.feature.messaging.model.MessageType;
 import com.app.feature.messaging.service.MessageService;
 import com.app.feature.post.model.PostEntity;
 import com.app.feature.post.service.PostService;
@@ -70,6 +73,19 @@ public class MessageController {
             return ResponseEntity.status(200).body(new ApiResponse<>(true, conversations, "success"));
         } else {
             return ResponseEntity.status(400).body(new ApiResponse<>(false, null, "failed"));
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<ApiResponse<Boolean>> updateConversation(
+            @AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody Long messageID,
+            @RequestBody MessageType type) {
+        Message message = messageService.getMessageById(messageID);
+        if (message != null) {
+            messageService.updateMessage(message, type);
+            return ResponseEntity.status(200).body(new ApiResponse<>(true, true, "success"));
+        } else {
+            return ResponseEntity.status(200).body(new ApiResponse<>(true, false, "failed"));
         }
     }
 }

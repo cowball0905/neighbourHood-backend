@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.app.feature.auth.model.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -31,6 +32,7 @@ public class Message {
     @CreationTimestamp
     private LocalDateTime sendTime;
 
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private MessageType type;
 
     private String content;
@@ -101,5 +103,9 @@ public class Message {
 
     public void setConversation(Conversation conversation) {
         this.conversation = conversation;
+    }
+
+    public Conversation getConversation() {
+        return this.conversation;
     }
 }
