@@ -15,9 +15,10 @@ A Spring Boot backend application for a neighbourhood community platform that en
   - Image upload support via Supabase Storage
   - Real-time updates via WebSocket
 
-- **Real-time Notifications**
+- **Real-time Notifications + Chatroom **
   - WebSocket integration with STOMP protocol
   - Live post updates
+  - Functional Chatroom features
   - Like notifications
 
 - **File Storage**
@@ -58,21 +59,11 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 hibernate.enable_lazy_load_no_trans=true
 
-# Jackson Configuration
-spring.jackson.serialization.fail-on-empty-beans=false
-
-# JWT Configuration
-jwt.secret=your-secret-key-here
-jwt.expiration=86400000
-
 # Supabase Storage Configuration
 supabase.url=https://your-project.supabase.co
 supabase.key=your-supabase-anon-key
 supabase.bucket=your-bucket-name
 
-# File Upload Configuration
-spring.servlet.multipart.max-file-size=10MB
-spring.servlet.multipart.max-request-size=10MB
 ```
 
 ## Getting Started
@@ -241,7 +232,7 @@ neighbourHood-backend/
 
 ## Security
 
-- All endpoints except `/api/login`, `/api/register`, and `/ws/**` require JWT authentication
+- All endpoints except `/api/login`, `/api/register`, and `/ws/**`(will setup config later) require JWT authentication
 - Passwords are encrypted using BCrypt
 - JWT tokens expire after 24 hours (configurable)
 - CORS is configured to allow requests from the frontend
