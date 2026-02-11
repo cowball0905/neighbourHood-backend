@@ -53,14 +53,14 @@ public class MessageService {
         conversation.addMessage(msg);
         conversation = conversationRepository.save(conversation);
         msg = messageRepository.save(conversation.getMessages().get(conversation.getMessages().size() - 1));
-        messagingTemplate.convertAndSend(
-                "/topic/msg/" + conversation.getId(),
-                conversation);
         Notification notification = new Notification(user1, user2, NotificationType.MESSAGE, msg.getId());
         notificationService.sendNotifications(notification, user1, user2);
         if (type == MessageType.ACCEPT) {
             postService.acceptRequest(conversation.getPost().getId(), user2.getUuid());
         }
+        messagingTemplate.convertAndSend(
+                "/topic/msg/" + conversation.getId(),
+                conversation);
     }
 
     public Conversation findConversation(User user1, User user2, PostEntity post) {
