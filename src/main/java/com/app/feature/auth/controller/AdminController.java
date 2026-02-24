@@ -1,8 +1,11 @@
 package com.app.feature.auth.controller;
 
+import java.util.UUID;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +20,7 @@ public class AdminController {
 
     public final UserService userService;
 
-    public AdminController(UserService userService){
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -33,6 +36,14 @@ public class AdminController {
     @GetMapping("/user")
     public ApiResponse<String> userInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
         User user = userService.getUser(userDetails.getEmail());
+        return new ApiResponse(true, user, "");
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/user/{id}")
+    public ApiResponse<String> getUserInfoById(@AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable UUID id) {
+        User user = userService.findById(id);
         return new ApiResponse(true, user, "");
     }
 }

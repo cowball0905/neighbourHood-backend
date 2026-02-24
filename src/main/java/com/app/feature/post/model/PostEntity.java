@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.app.feature.auth.model.User;
 import com.app.feature.photo.model.PhotoEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public class PostEntity {
 
     @ManyToOne
     @JoinColumn(name = "accept_user_id", referencedColumnName = "uuid", columnDefinition = "UUID")
+    @JsonIgnoreProperties({ "email", "house" })
     private User acceptUser;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

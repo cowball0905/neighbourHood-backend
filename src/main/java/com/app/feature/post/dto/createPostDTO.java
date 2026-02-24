@@ -77,7 +77,7 @@ public class createPostDTO {
         return content;
     }
 
-    public void setRequest_type(int request_type){
+    public void setRequest_type(int request_type) {
         this.request_type = request_type;
     }
 

@@ -18,7 +18,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -58,6 +57,10 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<PostEntity> posts = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "acceptUser")
+    private List<PostEntity> acceptedPosts = new ArrayList<>();
 
     public void addPost(PostEntity post) {
         posts.add(post);
