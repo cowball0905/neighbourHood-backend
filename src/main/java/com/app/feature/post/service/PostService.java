@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.cglib.core.Local;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import com.app.feature.auth.model.User;
 import com.app.feature.auth.repository.UserRepository;
-import com.app.feature.notifications.model.Notification;
 import com.app.feature.notifications.service.NotificationService;
 import com.app.feature.photo.model.PhotoEntity;
 import com.app.feature.post.model.PostEntity;
@@ -45,6 +46,7 @@ public class PostService {
         return null;
     }
 
+    @Cacheable(value = "post", key = "#id")
     public PostEntity findById(Long id) {
         Optional<PostEntity> post = postRepository.findById(id);
         if (post.isPresent()) {
@@ -53,10 +55,12 @@ public class PostService {
         return null;
     }
 
+    @Cacheable(value = "post")
     public List<PostEntity> findAll() {
         return postRepository.findAll();
     }
 
+    @CacheEvict(value = "post", key = "#id")
     public int acceptRequest(Long id, UUID uuid) {
         Optional<PostEntity> post = postRepository.findById(id);
         if (post.isPresent()) {
@@ -83,6 +87,7 @@ public class PostService {
         }
     }
 
+    @CacheEvict(value = "post", key = "#postID")
     public int likePost(Long postID, UUID userUuid) {
         Optional<User> user = userRepository.findById(userUuid);
         Optional<PostEntity> post = postRepository.findById(postID);
@@ -108,5 +113,31 @@ public class PostService {
             return 1;
         }
         return 2;
+    }
+
+    @CacheEvict(value = "post", key = "#id")
+    public void deleteByid(Long id) {
+        postRepository.deleteById(id);
+    }
+
+    @CachePut(value = "post", key = "#id")
+    public PostEntity updatePost(Long id, String title, String content, int type, UUID uuid, int redeemPoints,
+            int request_type, int payment_method, boolean is_important, LocalDateTime startTime,
+            LocalDateTime endTime) {
+        Optional<PostEntity> post = postRepository.findById(id);
+        if (post.isPresent()) {
+            PostEntity postEntity = post.get();
+            postEntity.setTitle(title);
+            postEntity.setContent(content);
+            postEntity.setType(type);
+            postEntity.setRedeemPoints(redeemPoints);
+            postEntity.setRequest_type(request_type);
+            postEntity.setPayment_method(payment_method);
+            postEntity.setIs_important(is_important);
+            postEntity.setStartTime(startTime);
+            postEntity.setEndTime(endTime);
+            return postRepository.save(postEntity);
+        }
+        return null;
     }
 }

@@ -4,7 +4,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,6 +48,7 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
+    @Cacheable(value = "#uuid")
     public User findById(UUID uuid) {
         Optional<User> user = userRepository.findById(uuid);
         if (user.isPresent()) {

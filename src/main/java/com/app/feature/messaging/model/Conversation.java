@@ -31,12 +31,12 @@ public class Conversation {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user1_id", columnDefinition = "UUID")
+    @JoinColumn(name = "user1_id", referencedColumnName = "uuid", columnDefinition = "UUID")
     @JsonIgnoreProperties({ "email", "house" })
     private User user1;
 
     @ManyToOne
-    @JoinColumn(name = "user2_id", columnDefinition = "UUID")
+    @JoinColumn(name = "user2_id", referencedColumnName = "uuid", columnDefinition = "UUID")
     @JsonIgnoreProperties({ "email", "house" })
     private User user2;
 

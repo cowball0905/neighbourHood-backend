@@ -25,7 +25,7 @@ public class Message {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "sender_id", columnDefinition = "UUID")
+    @JoinColumn(name = "sender_id", referencedColumnName = "uuid", columnDefinition = "UUID")
     @JsonIgnoreProperties({ "email", "house" })
     private User sender;
 

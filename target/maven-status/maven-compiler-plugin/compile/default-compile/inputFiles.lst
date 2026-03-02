@@ -17,9 +17,11 @@
 /Users/8989ken/git/xavier-backend/neighbourHood-backend/src/main/java/com/app/feature/auth/service/UserService.java
 /Users/8989ken/git/xavier-backend/neighbourHood-backend/src/main/java/com/app/feature/notifications/service/NotificationService.java
 /Users/8989ken/git/xavier-backend/neighbourHood-backend/src/main/java/com/app/dto/ApiResponse.java
+/Users/8989ken/git/xavier-backend/neighbourHood-backend/src/main/java/com/app/utils/RedisService.java
 /Users/8989ken/git/xavier-backend/neighbourHood-backend/src/main/java/com/app/feature/messaging/service/MessageService.java
 /Users/8989ken/git/xavier-backend/neighbourHood-backend/src/main/java/com/app/feature/post/dto/createPostDTO.java
 /Users/8989ken/git/xavier-backend/neighbourHood-backend/src/main/java/com/app/feature/messaging/controller/MessageController.java
+/Users/8989ken/git/xavier-backend/neighbourHood-backend/src/main/java/com/app/config/RedisConfig.java
 /Users/8989ken/git/xavier-backend/neighbourHood-backend/src/main/java/com/app/feature/auth/dto/RegisterRequestDTO.java
 /Users/8989ken/git/xavier-backend/neighbourHood-backend/src/main/java/com/app/feature/post/controller/PostController.java
 /Users/8989ken/git/xavier-backend/neighbourHood-backend/src/main/java/com/app/feature/messaging/model/MessageType.java

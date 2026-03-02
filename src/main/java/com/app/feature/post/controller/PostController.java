@@ -4,17 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.Cache;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,11 +34,15 @@ import com.app.feature.post.dto.createPostDTO;
 import com.app.feature.post.model.PostEntity;
 import com.app.feature.post.service.PostService;
 import com.app.feature.storage.service.SupabaseStorageService;
+import com.app.utils.RedisService;
 
 @PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/api/post")
 public class PostController {
+    @Autowired
+    private RedisService redisService;
+
     private final SupabaseStorageService storageService;
     private final PostService postService;
     private final PhotoService photoService;
@@ -109,5 +119,39 @@ public class PostController {
             return ResponseEntity.status(404)
                     .body(new ApiResponse<>(false, false, "fail to find corresponding user or post"));
         }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse> deletePost(@PathVariable("id") Long id) {
+        postService.deleteByid(id);
+        return ResponseEntity.status(200).body(new ApiResponse<>(true, true, "success"));
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ApiResponse> updatePost(@PathVariable("id") Long id,
+            @AuthenticationPrincipal CustomUserDetails userDetails, @ModelAttribute createPostDTO dto) {
+        PostEntity post = postService.updatePost(id, dto.getTitle(), dto.getContent(), dto.getType(),
+                userDetails.getUuid(), dto.getRedeemPoints(), dto.getRequestType(), dto.getPaymentMethod(),
+                dto.getIsImportant(), dto.getStartTime(), dto.getEndTime());
+
+        if (post == null) {
+            return ResponseEntity.status(403).body(new ApiResponse<>(false, null, "Unauthorized or post not found"));
+        }
+
+        List<String> urls = new ArrayList<>();
+        if (dto.getFiles() != null) {
+            for (MultipartFile file : dto.getFiles()) {
+                String url = storageService.uploadFile(file, "request");
+                if (url != null)
+                    urls.add(url);
+            }
+        }
+
+        if (urls.size() > 0) {
+            List<PhotoEntity> photos = photoService.savePhoto(urls, post);
+            postService.connectPhotos(post.getId(), photos);
+        }
+
+        return ResponseEntity.status(200).body(new ApiResponse<>(true, post.getId(), "Post updated successfully"));
     }
 }

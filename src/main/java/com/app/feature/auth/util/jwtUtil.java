@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Component
 public class jwtUtil {
-    private static long time = 1000 * 60 * 60 * 24;
+    private static long time = 1000 * 60 * 60 * 24;// 1000 * 60 * 60 * 24;
     private static final String SECRET = "ifhw9hcaos9hcap9chasp9chaochachdaochach9padol";
     private static Key SECRET_KEY = new SecretKeySpec(SECRET.getBytes(), 0, SECRET.getBytes().length, "HmacSHA256");
 

@@ -24,7 +24,7 @@ public class createPostDTO {
 
     public createPostDTO(String title, String content, int type, int redeemPoints, MultipartFile[] files,
             int request_type,
-            int payment_method, boolean is_important, LocalDateTime startTime, int duration) {
+            int payment_method, boolean is_important, LocalDateTime startTime, int duration, LocalDateTime endTime) {
         this.title = title;
         this.content = content;
         this.type = type;

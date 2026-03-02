@@ -185,4 +185,40 @@ public class PostEntity {
     public void removeLike(User tUser) {
         this.likeUsers.remove(tUser);
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setPayment_method(int payment_method) {
+        this.payment_method = payment_method;
+    }
+
+    public void setRequest_type(int request_type) {
+        this.request_type = request_type;
+    }
+
+    public void setIs_important(Boolean is_important) {
+        this.is_important = is_important;
+    }
+
+    public void setRedeemPoints(int redeemPoints) {
+        this.redeemPoints = redeemPoints;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
 }
