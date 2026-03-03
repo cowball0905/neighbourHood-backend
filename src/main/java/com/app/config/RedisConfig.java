@@ -18,11 +18,11 @@ import org.springframework.context.annotation.Configuration;
 public class RedisConfig {
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory, ObjectMapper mapper) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
         template.setKeySerializer(new StringRedisSerializer()); // key as string
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer()); // input json, output java obj
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer(mapper)); // input json, output java obj
         return template;
     }
 
